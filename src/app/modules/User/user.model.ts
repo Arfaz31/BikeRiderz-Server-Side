@@ -22,6 +22,7 @@ const userSchema = new Schema<Tuser>(
   },
 );
 
+//password field won't be shown in json response
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;

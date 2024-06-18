@@ -28,7 +28,7 @@ export const auth = (...requiredRoles: TUserRole[]) => {
     }
 
     if (!requiredRoles.includes(role)) {
-      throw new Error('unauthorized');
+      throw new Error('You have no access to this route');
     }
 
     req.user = verfiedToken as JwtPayload;

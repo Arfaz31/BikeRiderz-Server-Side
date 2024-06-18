@@ -21,9 +21,9 @@ const updateUserIntoDB = async (
   }
 
   // Check if the user is trying to change their role from 'user' to 'admin'
-  // if (role === 'user' && payload.role && payload.role === 'admin') {
-  //   throw new Error('You do not have permission to change your role to admin');
-  // }
+  if (role === 'user' && payload.role && payload.role === 'admin') {
+    throw new Error('You do not have permission to change your role to admin');
+  }
 
   const updatedUser = await User.findOneAndUpdate({ email }, payload, {
     new: true,
