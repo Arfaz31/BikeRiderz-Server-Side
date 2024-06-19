@@ -13,6 +13,28 @@ const createRental = catchAsync(async (req, res) => {
   });
 });
 
+const returnBike = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BookingServices.updateAsReturnBike(id);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Bike returned successfully',
+    data: result,
+  });
+});
+const getMyAllRental = catchAsync(async (req, res) => {
+  const result = await BookingServices.getMyAllRentalsFromDB();
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Bike retrieved  successfully',
+    data: result,
+  });
+});
+
 export const BookingController = {
   createRental,
+  returnBike,
+  getMyAllRental,
 };

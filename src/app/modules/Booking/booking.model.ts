@@ -6,7 +6,6 @@ import { Bike } from '../Bike/bike.model';
 const bookingSchema = new Schema<TBooking>({
   userId: {
     type: Schema.Types.ObjectId,
-    unique: true,
     ref: User,
   },
   bikeId: {
