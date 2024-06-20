@@ -1,3 +1,4 @@
+import AppError from '../../Error/AppError';
 import { Tuser } from './user.interface';
 import { User } from './user.model';
 
@@ -17,12 +18,15 @@ const updateUserIntoDB = async (
   }
 
   if (role !== user.role) {
-    throw new Error('You have no access to update this profile');
+    throw new AppError(401, 'You have no access to update this profile');
   }
 
   // Check if the user is trying to change their role from 'user' to 'admin'
   if (role === 'user' && payload.role && payload.role === 'admin') {
-    throw new Error('You do not have permission to change your role to admin');
+    throw new AppError(
+      401,
+      'You do not have permission to change your role to admin',
+    );
   }
 
   const updatedUser = await User.findOneAndUpdate({ email }, payload, {

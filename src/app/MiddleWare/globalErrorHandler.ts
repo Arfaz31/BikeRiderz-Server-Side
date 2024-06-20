@@ -52,6 +52,13 @@ const globalErrorHandler = (
   } else if (err instanceof AppError) {
     statusCode = err?.statusCode;
     message = err?.message;
+    if (statusCode === 401) {
+      return res.status(statusCode).json({
+        success: false,
+        statusCode,
+        message,
+      });
+    }
   } else if (err instanceof Error) {
     message = err?.message;
     errorMessages = [

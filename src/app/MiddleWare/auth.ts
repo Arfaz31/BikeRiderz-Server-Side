@@ -25,7 +25,7 @@ export const auth = (...requiredRoles: TUserRole[]) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      throw new Error('User not found');
+      throw new AppError(404, 'User not found');
     }
 
     if (!requiredRoles.includes(role)) {
