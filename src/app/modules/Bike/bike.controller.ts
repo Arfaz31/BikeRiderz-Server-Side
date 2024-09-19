@@ -12,7 +12,17 @@ const createBike = catchAsync(async (req, res) => {
   });
 });
 const getAllBike = catchAsync(async (req, res) => {
-  const result = await BikeServices.getAllBikesFromDB();
+  const result = await BikeServices.getAllBikesFromDB(req.query);
+  sendResponse(res, {
+    statusCode: 200,
+    success: true,
+    message: 'Bikes retrieved successfully',
+    data: result,
+  });
+});
+const getSingleBike = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await BikeServices.getSingleBikesFromDB(id);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -46,6 +56,7 @@ const deleteBike = catchAsync(async (req, res) => {
 export const BikeController = {
   createBike,
   getAllBike,
+  getSingleBike,
   updateBike,
   deleteBike,
 };

@@ -76,7 +76,7 @@ const updateAsReturnBike = async (id: string) => {
 };
 
 const getMyAllRentalsFromDB = async () => {
-  const result = await Booking.find();
+  const result = await Booking.find().populate('userId bikeId');
   return result;
 };
 export const BookingServices = {
