@@ -7,6 +7,11 @@ const getAllUserFromDB = async () => {
   return result;
 };
 
+const getSingleUserFromDB = async (id: string) => {
+  const result = await User.findById(id);
+  return result;
+};
+
 const updateUserIntoDB = async (
   email: string,
   role: string,
@@ -29,10 +34,14 @@ const updateUserIntoDB = async (
     );
   }
 
-  const updatedUser = await User.findOneAndUpdate({ email }, payload, {
-    new: true,
-    runValidators: true,
-  });
+  const updatedUser = await User.findOneAndUpdate(
+    { email },
+    { $set: payload },
+    {
+      new: true,
+      runValidators: true,
+    },
+  );
 
   if (!updatedUser) {
     throw new Error('Failed to update user profile');
@@ -43,5 +52,6 @@ const updateUserIntoDB = async (
 
 export const userServices = {
   getAllUserFromDB,
+  getSingleUserFromDB,
   updateUserIntoDB,
 };

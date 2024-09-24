@@ -5,6 +5,7 @@ import config from '../config';
 import { User } from '../modules/User/user.model';
 import { TUserRole } from '../modules/User/user.interface';
 import AppError from '../Error/AppError';
+import httpStatus from 'http-status';
 
 export const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
@@ -15,10 +16,15 @@ export const auth = (...requiredRoles: TUserRole[]) => {
     //("Bearer token")
     const token = accessToken.split(' ')[1]; //Splits the accessToken string at each space character, resulting in an array with two elements: ["Bearer", "<token>"].
 
-    const verfiedToken = jwt.verify(
-      token as string,
-      config.jwt_access_secret as string,
-    );
+    let verfiedToken;
+    try {
+      verfiedToken = jwt.verify(
+        token as string,
+        config.jwt_access_secret as string,
+      );
+    } catch (error) {
+      throw new AppError(httpStatus.UNAUTHORIZED, 'Unauthorized');
+    }
 
     const { role, email } = verfiedToken as JwtPayload;
 

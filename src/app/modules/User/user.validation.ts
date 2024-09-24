@@ -22,14 +22,10 @@ const createUserValidationSchema = z.object({
 
 const updateUserValidationSchema = z.object({
   body: z.object({
-    name: z.string().min(1, 'Name is required').optional(),
-    email: z
-      .string()
-      .email('Invalid email address')
-      .min(1, 'Email is required')
-      .optional(),
-    phone: z.string().min(1, 'Phone number is required').optional(),
-    address: z.string().min(1, 'Address is required').optional(),
+    name: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+    address: z.string().optional(),
     // role: z
     //   .nativeEnum(USER_Role, {
     //     message: 'Role must be either admin or user',

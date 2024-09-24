@@ -15,9 +15,13 @@ router.post(
 );
 
 router.put('/:id/return', auth(USER_Role.admin), BookingController.returnBike);
+router.put('/:id/pay', auth(USER_Role.user), BookingController.payTotalCost);
+
+router.get('/', auth(USER_Role.admin), BookingController.getAllRental);
 router.get(
-  '/',
-  auth(USER_Role.user, USER_Role.admin),
+  '/my-rentals',
+  auth(USER_Role.user),
   BookingController.getMyAllRental,
 );
+
 export const BookingRoutes = router;

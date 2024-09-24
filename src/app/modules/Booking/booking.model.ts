@@ -30,6 +30,14 @@ const bookingSchema = new Schema<TBooking>({
     type: Boolean,
     default: false,
   },
+  isPaid: {
+    type: Boolean,
+    default: false,
+  },
+  advancedPayment: {
+    type: Number,
+    default: 0,
+  },
 });
 
 export const Booking = model<TBooking>('Booking', bookingSchema);

@@ -58,7 +58,7 @@ const updateAsReturnBike = async (id: string) => {
   const returnTime = new Date(); // current time
   const durationInHours = Math.ceil(
     //Math.ceil() is used to round up to the nearest integer
-    (returnTime.getTime() - startTime.getTime()) / (1000 * 60 * 60), //converts milliseconds to hours.
+    (returnTime.getTime() - startTime.getTime()) / (1000 * 60 * 60 - 100), //converts milliseconds to hours.
   );
   const totalCost = durationInHours * bike.pricePerHour;
 
@@ -75,12 +75,41 @@ const updateAsReturnBike = async (id: string) => {
   return rental;
 };
 
+const getAllRentalsFromDB = async () => {
+  const result = await Booking.find().populate('userId bikeId');
+  return result;
+};
+
 const getMyAllRentalsFromDB = async () => {
   const result = await Booking.find().populate('userId bikeId');
   return result;
 };
+
+const updateIsPaidIntoDB = async (id: string) => {
+  const rental = await Booking.findById({ _id: id });
+  if (!rental) {
+    throw new Error('Rental not found');
+  }
+
+  const bike = await Bike.findById(rental.bikeId);
+  if (!bike) {
+    throw new Error('Bike not found');
+  }
+
+  rental.isPaid = true;
+  await rental.save();
+
+  // Update bike's availability status
+  bike.isAvailable = true;
+  await bike.save();
+
+  return rental;
+};
+
 export const BookingServices = {
   createRentalIntoDB,
   updateAsReturnBike,
+  getAllRentalsFromDB,
   getMyAllRentalsFromDB,
+  updateIsPaidIntoDB,
 };
