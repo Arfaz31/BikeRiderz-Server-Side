@@ -3,7 +3,7 @@ import sendResponse from '../../Utills/sendResponse';
 import { userServices } from './user.services';
 
 const getAllUser = catchAsync(async (req, res) => {
-  const result = await userServices.getAllUserFromDB();
+  const result = await userServices.getAllUserFromDB(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -24,11 +24,12 @@ const getSingleUser = catchAsync(async (req, res) => {
 
 const updateUser = catchAsync(async (req, res) => {
   const { email, role } = req.user;
-  const result = await userServices.updateUserIntoDB(email, role, req.body);
+  const id = req.params.id || undefined; // Make id optional
+  const result = await userServices.updateUserIntoDB(email, role, req.body, id);
   sendResponse(res, {
     statusCode: 200,
     success: true,
-    message: 'profile updated successfully',
+    message: 'Profile updated successfully',
     data: result,
   });
 });

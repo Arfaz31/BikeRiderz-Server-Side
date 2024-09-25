@@ -19,9 +19,10 @@ router.get(
 );
 
 router.put(
-  '/me',
+  '/me/:id?', // Make the ID parameter optional
   auth(USER_Role.admin, USER_Role.user),
   validateRequest(updateUserValidationSchema),
   userController.updateUser,
 );
+
 export const UserRoutes = router;

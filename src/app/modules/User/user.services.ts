@@ -2,8 +2,15 @@ import AppError from '../../Error/AppError';
 import { Tuser } from './user.interface';
 import { User } from './user.model';
 
-const getAllUserFromDB = async () => {
-  const result = await User.find();
+const getAllUserFromDB = async (query: Record<string, unknown>) => {
+  let roleQuery = {};
+
+  // Apply role filter only if role is provided and not "all"
+  if (query?.role && query.role !== 'all') {
+    roleQuery = { role: query.role };
+  }
+
+  const result = await User.find(roleQuery);
   return result;
 };
 
@@ -16,13 +23,20 @@ const updateUserIntoDB = async (
   email: string,
   role: string,
   payload: Partial<Tuser>,
+  id?: string, // id is optional
 ) => {
-  const user = await User.findOne({ email });
+  const userQuery = id ? { _id: id } : { email }; // Use ID if present, otherwise use email
+
+  const user = await User.findOne(userQuery);
   if (!user) {
-    throw new Error('user not found');
+    throw new Error('User not found');
   }
 
-  if (role !== user.role) {
+  if (id) {
+    if (role !== 'admin') {
+      throw new AppError(401, 'You have no access to update this profile');
+    }
+  } else if (role !== user.role) {
     throw new AppError(401, 'You have no access to update this profile');
   }
 
@@ -35,7 +49,7 @@ const updateUserIntoDB = async (
   }
 
   const updatedUser = await User.findOneAndUpdate(
-    { email },
+    { $or: [{ _id: id }, { email }] },
     { $set: payload },
     {
       new: true,
