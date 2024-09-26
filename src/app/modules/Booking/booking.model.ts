@@ -11,7 +11,6 @@ const bookingSchema = new Schema<TBooking>({
   bikeId: {
     type: Schema.Types.ObjectId,
     required: true,
-    unique: true,
     ref: Bike,
   },
   startTime: {

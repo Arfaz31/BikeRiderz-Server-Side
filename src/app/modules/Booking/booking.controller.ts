@@ -25,7 +25,7 @@ const returnBike = catchAsync(async (req, res) => {
 });
 
 const getAllRental = catchAsync(async (req, res) => {
-  const result = await BookingServices.getAllRentalsFromDB();
+  const result = await BookingServices.getAllRentalsFromDB(req.query);
   sendResponse(res, {
     statusCode: 200,
     success: true,
@@ -35,7 +35,8 @@ const getAllRental = catchAsync(async (req, res) => {
 });
 
 const getMyAllRental = catchAsync(async (req, res) => {
-  const result = await BookingServices.getMyAllRentalsFromDB();
+  const { email } = req.user;
+  const result = await BookingServices.getMyAllRentalsFromDB(email);
   sendResponse(res, {
     statusCode: 200,
     success: true,

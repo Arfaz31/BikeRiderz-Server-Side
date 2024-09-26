@@ -85,7 +85,7 @@ const getAllBikesFromDB = async (query: Record<string, unknown>) => {
 
   // Availability Filter
   let availabilityQuery = {};
-  if (query?.availability !== undefined) {
+  if (query?.availability !== undefined && query.availability !== 'all') {
     availabilityQuery = { isAvailable: query.availability === 'true' };
   }
 
@@ -99,7 +99,7 @@ const getAllBikesFromDB = async (query: Record<string, unknown>) => {
 
   // Brand Filter
   let brandQuery = {};
-  if (query?.brand) {
+  if (query?.brand && query.brand !== 'All Brands') {
     brandQuery = { brand: query.brand };
   }
 
