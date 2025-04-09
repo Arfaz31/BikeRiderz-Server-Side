@@ -6,7 +6,7 @@ Bike Rental Service is a web application that allows users to rent bikes online.
 
 ## Live Demo
 
-Check out the live demo of the project here: https://bike-rental-server-side.vercel.app/
+Check out the live demo of the project here: https://bike-riderz-server.vercel.app/
 
 ## Features
 
